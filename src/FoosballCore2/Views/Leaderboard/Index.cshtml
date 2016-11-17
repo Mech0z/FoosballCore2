@@ -1,0 +1,11 @@
+﻿@model List<Models.LeaderboardView>
+
+@foreach (var season in Model.OrderBy(x => x.Timestamp).ToList())
+{
+    <h4><b>@season.SeasonName (@season.Timestamp.Value.ToString("dd-MM-yyyy"))</b></h4>
+    foreach (var entry in season.Entries)
+    {
+        <li>@entry.UserName @entry.EloRating @entry.Form</li>
+    }
+    <br/>
+}

@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  foosballcore2:
+    image: user/foosballcore2
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        source: ${DOCKER_BUILD_SOURCE}

@@ -12,6 +12,12 @@ using Microsoft.Extensions.Logging;
 using FoosballCore2.Data;
 using FoosballCore2.Models;
 using FoosballCore2.Services;
+using Logic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Models;
+using MongoDB.Driver;
+using Repository;
 
 namespace FoosballCore2
 {
@@ -49,9 +55,25 @@ namespace FoosballCore2
 
             services.AddMvc();
 
+            services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDb"));
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            //Repository
+            services.AddScoped<ILeaderboardViewRepository, LeaderboardViewRepository>();
+            services.AddScoped<IMatchRepository, MatchRepository>();
+            services.AddScoped<ISeasonRepository, SeasonRepository>();
+            services.AddScoped<IMatchupResultRepository, MatchupResultRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            //Logic
+            services.AddScoped<IAchievementsService, AchievementsService>();
+            services.AddScoped<ILeaderboardService, LeaderboardService>();
+            services.AddScoped<IMatchupHistoryCreator, MatchupHistoryCreator>();
+            services.AddScoped<ISeasonLogic, SeasonLogic>();
+            services.AddScoped<IRating, EloRating>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
