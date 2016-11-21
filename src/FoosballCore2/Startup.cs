@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +9,7 @@ using FoosballCore2.Data;
 using FoosballCore2.Models;
 using FoosballCore2.Services;
 using Logic;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using Models;
-using MongoDB.Driver;
 using Repository;
 
 namespace FoosballCore2
@@ -54,9 +47,7 @@ namespace FoosballCore2
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDb"));
-
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

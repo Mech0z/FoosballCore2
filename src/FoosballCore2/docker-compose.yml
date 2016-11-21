@@ -8,3 +8,15 @@ services:
       dockerfile: Dockerfile
       args:
         source: ${DOCKER_BUILD_SOURCE}
+    links:
+    - some_mongo:db
+  some_mongo:
+    image: tutum/mongodb
+    environment:
+        - AUTH=no
+        - MONGODB_DATABASE="coretest"
+    ports:
+    - "27017:27017"
+    - "28017:28017"
+    volumes:
+    - "c:/data:/data/db"
