@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using AspNetCore.Identity.MongoDB;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using FoosballCore2.Data;
-using FoosballCore2.Models;
 using FoosballCore2.Services;
 using Logic;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Models;
+using MongoDB.Driver;
 using Repository;
 
 namespace FoosballCore2
@@ -38,16 +41,26 @@ namespace FoosballCore2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+            //Configure Mongodb
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDb"));
+
+
+            services.AddSingleton<IUserStore<MongoIdentityUser>>(provider =>
+            {
+                var options = provider.GetService<IOptions<MongoDbSettings>>();
+                var client = new MongoClient(options.Value.ConnectionString);
+                var database = client.GetDatabase(options.Value.DatabaseName);
+                var loggerFactory = provider.GetService<ILoggerFactory>();
+                
+                return new MongoUserStore<MongoIdentityUser>(database, loggerFactory);
+            });
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -65,6 +78,53 @@ namespace FoosballCore2
             services.AddScoped<IMatchupHistoryCreator, MatchupHistoryCreator>();
             services.AddScoped<ISeasonLogic, SeasonLogic>();
             services.AddScoped<IRating, EloRating>();
+
+
+            //Identity
+            services.AddAuthentication(options =>
+            {
+                // This is the Default value for ExternalCookieAuthenticationScheme
+                options.SignInScheme = new IdentityCookieOptions().ExternalCookieAuthenticationScheme;
+            });
+
+            // Hosting doesn't add IHttpContextAccessor by default
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddOptions();
+            services.AddDataProtection();
+
+            services.AddSingleton<IdentityMarkerService>();
+            services.AddSingleton<IUserValidator<MongoIdentityUser>, UserValidator<MongoIdentityUser>>();
+            services.AddSingleton<IPasswordValidator<MongoIdentityUser>, PasswordValidator<MongoIdentityUser>>();
+            services.AddSingleton<IPasswordHasher<MongoIdentityUser>, PasswordHasher<MongoIdentityUser>>();
+            services.AddSingleton<ILookupNormalizer, UpperInvariantLookupNormalizer>();
+            services.AddSingleton<IdentityErrorDescriber>();
+            services.AddSingleton<ISecurityStampValidator, SecurityStampValidator<MongoIdentityUser>>();
+            services.AddSingleton<IUserClaimsPrincipalFactory<MongoIdentityUser>, UserClaimsPrincipalFactory<MongoIdentityUser>>();
+            services.AddSingleton<UserManager<MongoIdentityUser>, UserManager<MongoIdentityUser>>();
+            services.AddSingleton<SignInManager<MongoIdentityUser>, SignInManager<MongoIdentityUser>>();
+
+            AddDefaultTokenProviders(services);
+        }
+
+        private void AddDefaultTokenProviders(IServiceCollection services)
+        {
+            var dataProtectionProviderType = typeof(DataProtectorTokenProvider<>).MakeGenericType(typeof(MongoIdentityUser));
+            var phoneNumberProviderType = typeof(PhoneNumberTokenProvider<>).MakeGenericType(typeof(MongoIdentityUser));
+            var emailTokenProviderType = typeof(EmailTokenProvider<>).MakeGenericType(typeof(MongoIdentityUser));
+            AddTokenProvider(services, TokenOptions.DefaultProvider, dataProtectionProviderType);
+            AddTokenProvider(services, TokenOptions.DefaultEmailProvider, emailTokenProviderType);
+            AddTokenProvider(services, TokenOptions.DefaultPhoneProvider, phoneNumberProviderType);
+        }
+
+        private void AddTokenProvider(IServiceCollection services, string providerName, Type provider)
+        {
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Tokens.ProviderMap[providerName] = new TokenProviderDescriptor(provider);
+            });
+
+            services.AddSingleton(provider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,7 +136,6 @@ namespace FoosballCore2
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
             }
             else

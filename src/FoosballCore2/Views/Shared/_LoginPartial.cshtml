@@ -1,8 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using FoosballCore2.Models
+﻿@using AspNetCore.Identity.MongoDB
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<MongoIdentityUser> SignInManager
+@inject UserManager<MongoIdentityUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {
