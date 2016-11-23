@@ -1,6 +1,6 @@
 ﻿@model List<Models.Season>
 
-@foreach (var season in @Model)
+@foreach (var season in @Model.OrderByDescending(x => x.StartDate))
 {
-    <h4><b>@Html.ActionLink("Leaderboard", "SeasonView", routeValues: new { seasonName = season.Name }) (@season.StartDate.ToString("dd-MM-yyyy")) </b></h4>
+    <h4><b>@Html.ActionLink(season.Name, "SeasonView", routeValues: new { seasonName = season.Name }) (Started @season.StartDate.ToString("dd-MM-yyyy")) </b></h4>
 }

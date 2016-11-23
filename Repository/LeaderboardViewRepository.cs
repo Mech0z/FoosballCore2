@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Models;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using System.Linq;
 
 namespace Repository
 {
@@ -20,8 +21,9 @@ namespace Repository
 
             query.OrderBy(x => x.Timestamp);
             query.Where(x => x.SeasonName == seasonName);
+            var result = query.ToList().Where(x => x.SeasonName == seasonName).ToList();
 
-            return query.Single();
+            return result.FirstOrDefault();
         }
 
         public List<LeaderboardView> GetLeaderboardViews()
