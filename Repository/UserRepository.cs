@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Models;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace Repository
 {
@@ -21,6 +22,12 @@ namespace Repository
         public void AddUser(User user)
         {
             Collection.InsertOne(user);
+        }
+
+        public User GetUser(string email)
+        {
+            var user = Collection.AsQueryable().Where(x => x.Email == email).FirstOrDefault();
+            return user;
         }
     }
 }

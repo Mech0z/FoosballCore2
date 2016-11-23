@@ -11,6 +11,7 @@ namespace Repository
     public interface ISeasonRepository
     {
         List<Season> GetSeasons();
+        Season GetSeason(string seasonName);
         void CreateNewSeason(Season season);
         void EndSeason(Season season);
     }
@@ -46,6 +47,13 @@ namespace Repository
             var currentSeason = seasons.FirstOrDefault();
             currentSeason.EndDate = DateTime.UtcNow.Date.AddHours(23);
             Collection.InsertOne(currentSeason);
+        }
+
+        public Season GetSeason(string seasonName)
+        {
+            var result = Collection.AsQueryable().SingleOrDefault(x => x.Name == seasonName);
+
+            return result;
         }
     }
 }

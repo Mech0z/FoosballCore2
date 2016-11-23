@@ -7,6 +7,7 @@ namespace Logic
     {
         LeaderboardView RecalculateLeaderboard(string season);
         LeaderboardView GetActiveLeaderboard();
+        LeaderboardView GetLeaderboardView(string seasonName);
         List<LeaderboardView> GetLatestLeaderboardViews();
         void AddMatchToLeaderboard(LeaderboardView leaderboardView, Match match);
     }

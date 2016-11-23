@@ -54,5 +54,10 @@ namespace Logic
 
             return existingSeasons.SingleOrDefault(x => x.EndDate == null);
         }
+
+        public Season GetSeason(string seasonName)
+        {
+            return _seasonRepository.GetSeason(seasonName);
+        }
     }
 }

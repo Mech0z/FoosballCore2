@@ -45,6 +45,12 @@ namespace FoosballCore2.Controllers
             return _userRepository.GetUsers();
         }
 
+        [HttpGet]
+        public ActionResult Index(string email)
+        {
+            return View(_userRepository.GetUser(email));
+        }
+
         [HttpPost]
         public ActionResult CreateUser(User user)
         {

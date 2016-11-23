@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Models;
 using Repository;
@@ -171,6 +172,11 @@ namespace Logic
             {
                 playerEntry.Losses++;
             }
+        }
+
+        public LeaderboardView GetLeaderboardView(string seasonName)
+        {
+            return _leaderboardViewRepository.GetLeaderboardView(seasonName);
         }
     }
 }

@@ -8,5 +8,6 @@ namespace Logic
         string StartNewSeason();
         List<Season> GetSeasons();
         Season GetActiveSeason();
+        Season GetSeason(string seasonName);
     }
 }
