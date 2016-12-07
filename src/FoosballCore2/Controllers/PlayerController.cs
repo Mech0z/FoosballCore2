@@ -48,6 +48,8 @@ namespace FoosballCore2.Controllers
         [HttpGet]
         public ActionResult Index(string email)
         {
+
+
             return View(_userRepository.GetUser(email));
         }
 
