@@ -4,9 +4,11 @@ using FoosballCore2.ViewModels;
 using Logic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoosballCore2.Controllers
 {
+    [Authorize(Policy = "Admin")]
     public class SeasonsAdministrationController : Controller
     {
         private readonly ISeasonLogic _seasonLogic;
@@ -27,7 +29,7 @@ namespace FoosballCore2.Controllers
 
             return View(vm);
         }
-
+        
         [HttpPost]
         public ActionResult StartNewSeason(VoidRequest request)
         {

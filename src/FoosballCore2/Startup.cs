@@ -41,16 +41,11 @@ namespace FoosballCore2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
-
             services.AddMvc();
 
             //Configure Mongodb
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDb"));
-
-
+            
             services.AddSingleton<IUserStore<MongoIdentityUser>>(provider =>
             {
                 var options = provider.GetService<IOptions<MongoDbSettings>>();
@@ -78,8 +73,7 @@ namespace FoosballCore2
             services.AddScoped<IMatchupHistoryCreator, MatchupHistoryCreator>();
             services.AddScoped<ISeasonLogic, SeasonLogic>();
             services.AddScoped<IRating, EloRating>();
-
-
+            
             //Identity
             services.AddAuthentication(options =>
             {
@@ -105,6 +99,21 @@ namespace FoosballCore2
             services.AddSingleton<SignInManager<MongoIdentityUser>, SignInManager<MongoIdentityUser>>();
 
             AddDefaultTokenProviders(services);
+
+            SetupRoles(services);
+        }
+
+        private void SetupRoles(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireClaim("Administrator");
+                    });
+
+            });
         }
 
         private void AddDefaultTokenProviders(IServiceCollection services)

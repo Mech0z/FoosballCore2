@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using FoosballCore2.Models;
 using FoosballCore2.Models.AccountViewModels;
 using FoosballCore2.Services;
 
