@@ -112,7 +112,6 @@ namespace FoosballCore2
                     {
                         authBuilder.RequireClaim("Administrator");
                     });
-
             });
         }
 

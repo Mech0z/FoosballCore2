@@ -19,5 +19,10 @@
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AspNetCore.Identity.MongoDB">
+      <HintPath>..\..\..\..\Users\Skipper\.nuget\packages\aspnetcore.identity.mongodb\1.0.0-rc2-2\lib\netstandard1.5\AspNetCore.Identity.MongoDB.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

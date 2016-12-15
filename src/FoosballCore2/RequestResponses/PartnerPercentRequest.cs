@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using FoosballCore2.Models;
+using Models;
 
 namespace Foosball9000Api.RequestResponse
 {

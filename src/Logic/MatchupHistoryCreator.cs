@@ -34,12 +34,12 @@ namespace Logic
 
             foreach (User user in _userRepository.GetUsers())
             {
-                if (user.Email != email)
+                if (user.Email.NormalizedValue != email)
                 {
                     result.Add(new PartnerPercentResult
                     {
-                        Username = user.Username,
-                        Email = user.Email,
+                        Username = user.NormalizedUserName,
+                        Email = user.Email.NormalizedValue,
                         UsersNormalWinrate = normalWinRate
                     });
                 }

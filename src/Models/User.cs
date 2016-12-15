@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using AspNetCore.Identity.MongoDB;
+using AspNetCore.Identity.MongoDB.Models;
 
 namespace Models
 {
-    public class User
+    public class User : MongoIdentityUser
     {
-        public Guid Id { get; set; }
+        public User(string userName, string email) : base(userName, email)
+        {
+        }
 
-        public string Email { get; set; }
+        public User(string userName, MongoUserEmail email) : base(userName, email)
+        {
+        }
 
-        public string Username { get; set; }
+        public User(string userName) : base(userName)
+        {
+        }
 
-        public string GravatarEmail { get; set; }
+        //public string Username { get; set; }
 
-        public string Password { get; set; }
-
-        public List<string> Roles { get; set; }
+        //public string GravatarEmail { get; set; }
     }
 }
