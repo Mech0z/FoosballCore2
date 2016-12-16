@@ -46,10 +46,10 @@ namespace FoosballCore2
             //    .AddDefaultTokenProviders();
 
             services.AddMvc();
+            services.AddSignalR();
 
             //Configure Mongodb
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDb"));
-
 
             services.AddSingleton<IUserStore<MongoIdentityUser>>(provider =>
             {
@@ -146,6 +146,7 @@ namespace FoosballCore2
             app.UseStaticFiles();
 
             app.UseIdentity();
+            app.UseSignalR();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
