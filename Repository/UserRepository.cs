@@ -1,33 +1,42 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Options;
+using System.Linq;
 using Models;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
+using Raven.Client;
 
 namespace Repository
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(IOptions<MongoDbSettings> settings) : base(settings, "Users")
+        private readonly IDocumentStore _documentStore;
+
+        public UserRepository(IDocumentStore documentStore) : base(documentStore, "Users")
         {
+            _documentStore = documentStore;
         }
 
         public List<User> GetUsers()
         {
-            var query = Collection.AsQueryable();
-            
-            return query.ToList();
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Load<User>().ToList();
+            }
         }
 
         public void AddUser(User user)
         {
-            Collection.InsertOne(user);
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                session.Store(user);
+            }
         }
 
         public User GetUser(string email)
         {
-            var user = Collection.AsQueryable().Where(x => x.Email == email).FirstOrDefault();
-            return user;
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Query<User>("ByEmail")
+                                        .FirstOrDefault(m => m.Email == email);
+            }
         }
     }
 }

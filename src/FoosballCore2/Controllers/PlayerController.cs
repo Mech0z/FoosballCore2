@@ -4,6 +4,7 @@ using Logic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
+using User = Models.User;
 
 namespace FoosballCore2.Controllers
 {

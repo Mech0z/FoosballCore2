@@ -1,5 +1,4 @@
 ﻿using System;
-using AspNetCore.Identity.MongoDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,9 +9,11 @@ using Logic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using Models;
-using MongoDB.Driver;
+using Raven.Client;
+using Raven.Client.Document;
+using RavenDB.AspNetCore.Identity.Entities;
+using RavenDB.AspNetCore.Identity.Stores;
 using Repository;
 
 namespace FoosballCore2
@@ -41,26 +42,23 @@ namespace FoosballCore2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
+            IDocumentStore store = new DocumentStore
+            {
+                ConnectionStringName = "Server"
+            };
+
+            store.Initialize();
+
+            services.AddSingleton(store);
+
+            services.AddIdentity<User, RavenRole>();
+            services.AddScoped<IUserStore<User>, RavenUserStore<User, RavenRole>>();
+            services.AddScoped<IRoleStore<RavenRole>, RavenUserStore<User, RavenRole>>();
+
+            services.AddIdentity<User, RavenRole>().AddDefaultTokenProviders();
 
             services.AddMvc();
-
-            //Configure Mongodb
-            services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDb"));
-
-
-            services.AddSingleton<IUserStore<MongoIdentityUser>>(provider =>
-            {
-                var options = provider.GetService<IOptions<MongoDbSettings>>();
-                var client = new MongoClient(options.Value.ConnectionString);
-                var database = client.GetDatabase(options.Value.DatabaseName);
-                var loggerFactory = provider.GetService<ILoggerFactory>();
-                
-                return new MongoUserStore<MongoIdentityUser>(database, loggerFactory);
-            });
-
+            
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -94,24 +92,17 @@ namespace FoosballCore2
             services.AddDataProtection();
 
             services.AddSingleton<IdentityMarkerService>();
-            services.AddSingleton<IUserValidator<MongoIdentityUser>, UserValidator<MongoIdentityUser>>();
-            services.AddSingleton<IPasswordValidator<MongoIdentityUser>, PasswordValidator<MongoIdentityUser>>();
-            services.AddSingleton<IPasswordHasher<MongoIdentityUser>, PasswordHasher<MongoIdentityUser>>();
             services.AddSingleton<ILookupNormalizer, UpperInvariantLookupNormalizer>();
             services.AddSingleton<IdentityErrorDescriber>();
-            services.AddSingleton<ISecurityStampValidator, SecurityStampValidator<MongoIdentityUser>>();
-            services.AddSingleton<IUserClaimsPrincipalFactory<MongoIdentityUser>, UserClaimsPrincipalFactory<MongoIdentityUser>>();
-            services.AddSingleton<UserManager<MongoIdentityUser>, UserManager<MongoIdentityUser>>();
-            services.AddSingleton<SignInManager<MongoIdentityUser>, SignInManager<MongoIdentityUser>>();
 
             AddDefaultTokenProviders(services);
         }
 
         private void AddDefaultTokenProviders(IServiceCollection services)
         {
-            var dataProtectionProviderType = typeof(DataProtectorTokenProvider<>).MakeGenericType(typeof(MongoIdentityUser));
-            var phoneNumberProviderType = typeof(PhoneNumberTokenProvider<>).MakeGenericType(typeof(MongoIdentityUser));
-            var emailTokenProviderType = typeof(EmailTokenProvider<>).MakeGenericType(typeof(MongoIdentityUser));
+            var dataProtectionProviderType = typeof(DataProtectorTokenProvider<>).MakeGenericType(typeof(User));
+            var phoneNumberProviderType = typeof(PhoneNumberTokenProvider<>).MakeGenericType(typeof(User));
+            var emailTokenProviderType = typeof(EmailTokenProvider<>).MakeGenericType(typeof(User));
             AddTokenProvider(services, TokenOptions.DefaultProvider, dataProtectionProviderType);
             AddTokenProvider(services, TokenOptions.DefaultEmailProvider, emailTokenProviderType);
             AddTokenProvider(services, TokenOptions.DefaultPhoneProvider, phoneNumberProviderType);

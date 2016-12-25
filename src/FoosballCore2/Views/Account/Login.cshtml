@@ -1,6 +1,6 @@
-﻿@using AspNetCore.Identity.MongoDB
+﻿@using Models
 @model LoginViewModel
-@inject SignInManager<MongoIdentityUser> SignInManager
+@inject SignInManager<User> SignInManager
 
 @{
     ViewData["Title"] = "Log in";

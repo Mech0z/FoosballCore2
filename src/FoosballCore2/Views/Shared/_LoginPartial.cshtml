@@ -1,7 +1,7 @@
-﻿@using AspNetCore.Identity.MongoDB
+﻿@using Models
 
-@inject SignInManager<MongoIdentityUser> SignInManager
-@inject UserManager<MongoIdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {

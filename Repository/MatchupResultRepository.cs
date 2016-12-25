@@ -1,30 +1,34 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Options;
+using System.Linq;
 using Models;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
+using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Repository
 {
     public class MatchupResultRepository : BaseRepository<MatchupResult>, IMatchupResultRepository
     {
-        public MatchupResultRepository(IOptions<MongoDbSettings> settings) : base(settings, "MatchupResults")
-        {
+        private readonly IDocumentStore _documentStore;
 
+        public MatchupResultRepository(IDocumentStore documentStore) : base(documentStore, "MatchupResults")
+        {
+            _documentStore = documentStore;
         }
 
         public void SaveMatchupResult(MatchupResult matchupResult)
         {
-            Collection.InsertOne(matchupResult);
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                session.Store(matchupResult);
+            }
         }
 
         public List<MatchupResult> GetByHashResult(int hashcode)
         {
-            var query = Collection.AsQueryable();
-
-            query.Where(x => x.HashResult == hashcode);
-
-            return query.ToList();
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Query<MatchupResult>("ByHashcode").Where(x => x.HashResult == hashcode).ToList();
+            }
         }
     }
 }

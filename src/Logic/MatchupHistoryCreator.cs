@@ -38,7 +38,7 @@ namespace Logic
                 {
                     result.Add(new PartnerPercentResult
                     {
-                        Username = user.Username,
+                        Username = user.UserName,
                         Email = user.Email,
                         UsersNormalWinrate = normalWinRate
                     });

@@ -1,23 +1,18 @@
-﻿using Microsoft.Extensions.Options;
-using Models;
-using MongoDB.Driver;
+﻿using Raven.Client;
+using Raven.Client.Indexes;
 
 namespace Repository
 {
-    public class BaseRepository<T>
+    public class BaseRepository<T> : AbstractIndexCreationTask<T>
     {
-        protected static IMongoClient Client;
-        protected static IMongoDatabase Database;
         private readonly string _collectionName;
 
-        public BaseRepository(IOptions<MongoDbSettings> settings, string collectionName)
+        public BaseRepository(IDocumentStore documentStore, string collectionName)
         {
-            Client = new MongoClient(settings.Value.ConnectionString);
-
-            Database = Client.GetDatabase(settings.Value.DatabaseName);
             _collectionName = collectionName;
         }
 
-        public IMongoCollection<T> Collection => Database.GetCollection<T>(_collectionName);
+
+
     }
 }

@@ -1,65 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Options;
+using System.Linq;
 using Models;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
+using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Repository
 {
     public class MatchRepository : BaseRepository<Match>, IMatchRepository
     {
-        public MatchRepository(IOptions<MongoDbSettings> settings) : base(settings, "MatchesV3")
-        {
+        private readonly IDocumentStore _documentStore;
 
+        public MatchRepository(IDocumentStore documentStore) : base(documentStore, "MatchesV3")
+        {
+            _documentStore = documentStore;
         }
 
         public void SaveMatch(Match match)
         {
-            Collection.InsertOne(match);
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                session.Store(match);
+            }
         }
 
         public List<Match> GetMatches(string season)
         {
-            IMongoQueryable<Match> result;
-            if (season == null)
+            List<Match> result;
+            using (IDocumentSession session = _documentStore.OpenSession())
             {
-                result = Collection.AsQueryable();
+                if (season == null)
+                {
+                    return session.Query<Match>("BySeason").ToList();
+                }
+                
+                return session.Query<Match>("BySeason")
+                        .Where(x => x.SeasonName == season).ToList();
             }
-            else
-            {
-                result = Collection.AsQueryable().Where(x => x.SeasonName == season);
-            }
-
-            return result.ToList();
-        }
+    }
 
         public Match GetByTimeStamp(DateTime time)
         {
-            var result = Collection.AsQueryable().Where(x => x.TimeStampUtc == time);
-
-            return result.FirstOrDefault();
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Query<Match>("ByTime")
+                                        .FirstOrDefault(m => m.TimeStampUtc == time);
+            }
         }
 
         public IEnumerable<Match> GetMatchesByTimeStamp(DateTime time)
         {
-            var result = Collection.AsQueryable().Where(x => x.TimeStampUtc >= time);
-            
-            return result;
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Query<Match>("ByTime")
+                                        .Where(m => m.TimeStampUtc >= time);
+            }
         }
 
         public List<Match> GetRecentMatches(int numberOfMatches)
         {
-            var result = Collection.AsQueryable().OrderByDescending(x => x.TimeStampUtc);
-            
-            return result.Take(numberOfMatches).ToList();
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Query<Match>("BySeason").OrderByDescending(x => x.TimeStampUtc).Take(numberOfMatches).ToList();
+            }
         }
 
         public List<Match> GetPlayerMatches(string email)
         {
-            var result = Collection.AsQueryable().Where(x => x.PlayerList.Contains(email));
-            
-            return result.ToList();
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Query<Match>("ByPlayerlist").Where(x => x.PlayerList.Contains(email)).ToList();
+            }
         }
     }
 }

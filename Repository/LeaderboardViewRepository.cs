@@ -1,43 +1,43 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using Models;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using System.Linq;
+using Models;
+using Raven.Client;
 
 namespace Repository
 {
     public class LeaderboardViewRepository : BaseRepository<LeaderboardView>, ILeaderboardViewRepository
     {
-        public LeaderboardViewRepository(IOptions<MongoDbSettings> settings) : base(settings, "LeaderboardViews")
-        {
+        private readonly IDocumentStore _documentStore;
 
+        public LeaderboardViewRepository(IDocumentStore documentStore) : base(documentStore, "LeaderboardViews")
+        {
+            _documentStore = documentStore;
         }
 
         public LeaderboardView GetLeaderboardView(string seasonName)
         {
-            var query = Collection.AsQueryable();
-
-            query.OrderBy(x => x.Timestamp);
-            query.Where(x => x.SeasonName == seasonName);
-            var result = query.ToList().Where(x => x.SeasonName == seasonName).ToList();
-
-            return result.FirstOrDefault();
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Query<LeaderboardView>("ByTime")
+                    .FirstOrDefault(m => m.SeasonName == seasonName);
+            }
         }
 
         public List<LeaderboardView> GetLeaderboardViews()
         {
-            var query = Collection.AsQueryable();
-
-            query.OrderBy(x => x.Timestamp);
-            
-            return query.ToList();
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                return session.Query<LeaderboardView>("ByTime")
+                                                        .OrderBy(m => m.Timestamp).ToList();
+            }
         }
 
         public void SaveLeaderboardView(LeaderboardView view)
         {
-            Collection.InsertOne(view);
+            using (IDocumentSession session = _documentStore.OpenSession())
+            {
+                session.Store(view);
+            }
         }
     }
 }
