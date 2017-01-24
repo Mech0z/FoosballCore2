@@ -6,6 +6,7 @@ using Models;
 using Repository;
 using System;
 using Foosball9000Api.RequestResponse;
+using FoosballCore2.RequestResponses;
 
 namespace Foosball9000Api.Controllers
 {
@@ -37,16 +38,9 @@ namespace Foosball9000Api.Controllers
         [HttpGet]
         public IEnumerable<Match> GetAll()
         {
-            try
-            {
-                var matches = _matchRepository.GetMatches(null);
+            var matches = _matchRepository.GetMatches(null);
 
-                return matches;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return matches;
         }
 
         // GET: /api/Match/LastGames?numberOfMatches=10
@@ -96,9 +90,9 @@ namespace Foosball9000Api.Controllers
 
                 _leaderboardService.AddMatchToLeaderboard(activeLeaderboard, match);
 
-                _matchRepository.SaveMatch(match);
+                _matchRepository.Upsert(match);
 
-                _leaderboardViewRepository.SaveLeaderboardView(activeLeaderboard);
+                _leaderboardViewRepository.Upsert(activeLeaderboard);
             }
             
             return Ok();
@@ -107,38 +101,31 @@ namespace Foosball9000Api.Controllers
         [HttpGet]
         public MatchupResult GetMatchupResult(List<string> userlist)
         {
-            try
-            {
-                userlist = new List<string> { "jasper@sovs.net", "maso@seges.dk", "madsskipper@gmail.com", "anjaskott@gmail.com"};
+            userlist = new List<string> { "jasper@sovs.net", "maso@seges.dk", "madsskipper@gmail.com", "anjaskott@gmail.com"};
 
-                //Sort
-                    var sortedUserlist = userlist.OrderBy(x => x).ToList();
-                var addedList = string.Join("", sortedUserlist.ToArray());
+            //Sort
+                var sortedUserlist = userlist.OrderBy(x => x).ToList();
+            var addedList = string.Join("", sortedUserlist.ToArray());
 
-                //RecalculateLeaderboard hashstring
-                var hashcode = addedList.GetHashCode();
+            //RecalculateLeaderboard hashstring
+            var hashcode = addedList.GetHashCode();
 
-                //RecalculateLeaderboard the correct one
-                var results = _matchupResultRepository.GetByHashResult(hashcode);
+            //RecalculateLeaderboard the correct one
+            var results = _matchupResultRepository.GetByHashResult(hashcode);
 
-                //TODO dont seem optimal to create a list every time
-                var team1list = new List<string> {userlist[0], userlist[1]};
-                var team1Hashcode = team1list.OrderBy(x => x).GetHashCode();
+            //TODO dont seem optimal to create a list every time
+            var team1list = new List<string> {userlist[0], userlist[1]};
+            var team1Hashcode = team1list.OrderBy(x => x).GetHashCode();
 
-                var team2list = new List<string> {userlist[3], userlist[4]};
-                var team2Hashcode = team2list.OrderBy(x => x).GetHashCode();
+            var team2list = new List<string> {userlist[3], userlist[4]};
+            var team2Hashcode = team2list.OrderBy(x => x).GetHashCode();
 
-                var result =
-                    results.Single(x =>
-                        (x.Team1HashCode == team1Hashcode || x.Team1HashCode == team2Hashcode) &&
-                        (x.Team2HashCode == team1Hashcode || x.Team2HashCode == team2Hashcode));
+            var result =
+                results.Single(x =>
+                    (x.Team1HashCode == team1Hashcode || x.Team1HashCode == team2Hashcode) &&
+                    (x.Team2HashCode == team1Hashcode || x.Team2HashCode == team2Hashcode));
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return result;
         }
 
         [HttpGet]

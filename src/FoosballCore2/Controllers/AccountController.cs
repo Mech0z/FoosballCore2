@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using FoosballCore2.Models;
 using FoosballCore2.Models.AccountViewModels;
 using FoosballCore2.Services;
 
@@ -104,7 +103,7 @@ namespace FoosballCore2.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new MongoIdentityUser(model.Email, model.Email);
+                var user = new MongoIdentityUser(model.Username, model.Email);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

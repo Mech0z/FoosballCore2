@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using AspNetCore.Identity.MongoDB;
 using Models;
 
-namespace Foosball9000Api.RequestResponse
+namespace FoosballCore2.RequestResponses
 {
     public class SaveMatchesRequest
     {
-        public User User { get; set; }
+        public MongoIdentityUser User { get; set; }
         public List<Match> Matches { get; set; }
     }
 }

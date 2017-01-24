@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace Repository
 {
-    public class BaseRepository<T>
+    public class BaseRepository<T> where T : IKey
     {
         protected static IMongoClient Client;
         protected static IMongoDatabase Database;
@@ -19,5 +19,11 @@ namespace Repository
         }
 
         public IMongoCollection<T> Collection => Database.GetCollection<T>(_collectionName);
+
+        public void Upsert(T item)
+        {
+            Collection.ReplaceOne(i => i.Id == item.Id, item,
+                            new UpdateOptions { IsUpsert = true });
+        }
     }
 }

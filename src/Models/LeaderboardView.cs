@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Models
 {
-    public class LeaderboardView
+    public class LeaderboardView : IKey
     {
         public LeaderboardView()
         {

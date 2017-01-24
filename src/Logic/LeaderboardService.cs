@@ -29,11 +29,11 @@ namespace Logic
             foreach (var match in matches)
             {
                 AddMatchToLeaderboard(leaderboardView, match);
-                _matchRepository.SaveMatch(match);
+                _matchRepository.Upsert(match);
             }
             leaderboardView.Entries = leaderboardView.Entries.OrderByDescending(x => x.EloRating).ToList();
 
-            _leaderboardViewRepository.SaveLeaderboardView(leaderboardView);
+            _leaderboardViewRepository.Upsert(leaderboardView);
             return leaderboardView;
         }
 

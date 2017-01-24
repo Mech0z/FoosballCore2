@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Models;
 
 namespace Repository
@@ -6,7 +6,10 @@ namespace Repository
     public interface IUserRepository
     {
         List<User> GetUsers();
-        User GetUser(string email);
         void AddUser(User user);
+        User GetUser(string email);
+        string Login(User inputUser);
+        bool Validate(User inputUser);
+        string ChangePassword(string email, string hashedPassword, string newPassword);
     }
 }

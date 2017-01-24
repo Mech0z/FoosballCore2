@@ -34,10 +34,5 @@ namespace Repository
             
             return query.ToList();
         }
-
-        public void SaveLeaderboardView(LeaderboardView view)
-        {
-            Collection.InsertOne(view);
-        }
     }
 }

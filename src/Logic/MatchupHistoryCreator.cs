@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AspNetCore.Identity.MongoDB;
 using Models;
 using Repository;
 
@@ -133,7 +134,7 @@ namespace Logic
             if (correctMatchupResult != null)
             {
                 AddMatchupResult(correctMatchupResult, match);
-                _matchupResultRepository.SaveMatchupResult(correctMatchupResult);
+                _matchupResultRepository.Upsert(correctMatchupResult);
             }
             else
             {
@@ -146,7 +147,7 @@ namespace Logic
                     Team2Wins = 0,
                     UserList = match.PlayerList
                 };
-                _matchupResultRepository.SaveMatchupResult(matchup);
+                _matchupResultRepository.Upsert(matchup);
             }
         }
 

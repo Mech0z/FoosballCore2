@@ -5,7 +5,7 @@ namespace Repository
 {
     public interface IMatchupResultRepository
     {
-        void SaveMatchupResult(MatchupResult matchupResult);
+        void Upsert(MatchupResult matchupResult);
         List<MatchupResult> GetByHashResult(int hashcode);
     }
 }

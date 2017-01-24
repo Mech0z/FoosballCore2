@@ -6,11 +6,12 @@ namespace Repository
 {
     public interface IMatchRepository
     {
-        void SaveMatch(Match match);
+        void Upsert(Match match);
         List<Match> GetMatches(string season);
         Match GetByTimeStamp(DateTime dateTime);
         List<Match> GetRecentMatches(int numberOfMatches);
         List<Match> GetPlayerMatches(string email);
         IEnumerable<Match> GetMatchesByTimeStamp(DateTime time);
+        List<string> GetUniqueEmails();
     }
 }
