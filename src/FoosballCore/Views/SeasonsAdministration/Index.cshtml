@@ -1,0 +1,22 @@
+﻿@using FoosballCore2.ViewModels
+@model SeasonsAdministrationViewModel
+
+@{
+    ViewBag.Title = "Season administration";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@foreach (var season in @Model.Seasons)
+{
+    <li>@season.Name ( @season.StartDate.ToString("dd/MM/yyyy") - @(season.EndDate.HasValue ? season.EndDate.Value.ToString("dd/MM/yyyy") : "NOW" ) )</li>
+}
+
+<form asp-controller="SeasonsAdministration" asp-action="StartNewSeason" method="post" class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-default">Start new season</button>
+        </div>
+    </div>
+</form>
