@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AspNetCore.Identity.MongoDB;
 using Logic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -48,21 +49,7 @@ namespace FoosballCore2.Controllers
         [HttpGet]
         public ActionResult Index(string email)
         {
-
-
             return View(_userRepository.GetUser(email));
-        }
-
-        [HttpPost]
-        public ActionResult CreateUser(User user)
-        {
-            var users = _userRepository.GetUsers();
-
-            if (users.Any(x => x.Email == user.Email))
-                return BadRequest("Email already exists");
-
-            _userRepository.AddUser(user);
-            return Ok();
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Repository
     {
         public SeasonRepository(IOptions<MongoDbSettings> settings) : base(settings, "Seasons")
         {
+
         }
 
         public List<Season> GetSeasons()

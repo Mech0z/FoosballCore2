@@ -13,11 +13,6 @@ namespace Repository
 
         }
 
-        public void SaveMatchupResult(MatchupResult matchupResult)
-        {
-            Collection.InsertOne(matchupResult);
-        }
-
         public List<MatchupResult> GetByHashResult(int hashcode)
         {
             var query = Collection.AsQueryable();

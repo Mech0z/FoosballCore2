@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Models
 {
-    public class Match
+    public class Match : IKey
     {
         public Match()
         {

@@ -1,0 +1,19 @@
+﻿@model List<Models.CombinedUser>
+
+<table>
+    <tr>
+        <th>Email</th>
+        <th>User</th>
+        <th>MongoUser</th>
+    </tr>
+    @foreach (var user in @Model)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>@(user.User != null)</td>
+            <td>@(user.MongoIdentityUser != null)</td>
+        </tr>
+    }
+</table>
+
+<li><a asp-area="" asp-controller="UserAdministration" asp-action="GetAllMatchUsers">User Administration</a></li>

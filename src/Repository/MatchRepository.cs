@@ -14,11 +14,6 @@ namespace Repository
 
         }
 
-        public void SaveMatch(Match match)
-        {
-            Collection.InsertOne(match);
-        }
-
         public List<Match> GetMatches(string season)
         {
             IMongoQueryable<Match> result;
@@ -32,6 +27,25 @@ namespace Repository
             }
 
             return result.ToList();
+        }
+
+        public List<string> GetUniqueEmails()
+        {
+            var matches = Collection.AsQueryable();
+            var uniqueEmails = new List<string>();
+
+            foreach (Match match in matches)
+            {
+                foreach (string email in match.PlayerList)
+                {
+                    if (!uniqueEmails.Contains(email))
+                    {
+                        uniqueEmails.Add(email);
+                    }
+                }
+            }
+
+            return uniqueEmails;
         }
 
         public Match GetByTimeStamp(DateTime time)

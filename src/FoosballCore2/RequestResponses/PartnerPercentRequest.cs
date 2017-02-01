@@ -1,9 +1,9 @@
-﻿using Models;
+﻿using AspNetCore.Identity.MongoDB;
 
-namespace Foosball9000Api.RequestResponse
+namespace FoosballCore2.RequestResponses
 {
     public class PartnerPercentRequest
     {
-        public User User { get; set; }
+        public MongoIdentityUser User { get; set; }
     }
 }

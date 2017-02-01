@@ -8,6 +8,6 @@ namespace Repository
     {
         LeaderboardView GetLeaderboardView(string seasonName);
         List<LeaderboardView> GetLeaderboardViews();
-        void SaveLeaderboardView(LeaderboardView view);
+        void Upsert(LeaderboardView view);
     }
 }
