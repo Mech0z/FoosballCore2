@@ -87,9 +87,9 @@ namespace Foosball9000Api.Controllers
 
                 _leaderboardService.AddMatchToLeaderboard(activeLeaderboard, match);
 
-                _matchRepository.SaveMatch(match);
+                _matchRepository.Upsert(match);
 
-                _leaderboardViewRepository.SaveLeaderboardView(activeLeaderboard);
+                _leaderboardViewRepository.Upsert(activeLeaderboard);
             }
             
             return Ok();

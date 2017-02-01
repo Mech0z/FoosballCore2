@@ -72,6 +72,7 @@ namespace FoosballCore
             services.AddScoped<ISeasonRepository, SeasonRepository>();
             services.AddScoped<IMatchupResultRepository, MatchupResultRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMongoUserRepository, MongoUserRepository>();
 
             //Logic
             services.AddScoped<IAchievementsService, AchievementsService>();
