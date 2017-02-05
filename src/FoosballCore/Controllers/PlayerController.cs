@@ -53,16 +53,16 @@ namespace FoosballCore2.Controllers
             return View(_userRepository.GetUser(email));
         }
 
-        [HttpPost]
-        public ActionResult CreateUser(User user)
-        {
-            var users = _userRepository.GetUsers();
+        //[HttpPost]
+        //public ActionResult CreateUser(User user)
+        //{
+        //    var users = _userRepository.GetUsers();
 
-            if (users.Any(x => x.Email == user.Email))
-                return BadRequest("Email already exists");
+        //    if (users.Any(x => x.Email == user.Email))
+        //        return BadRequest("Email already exists");
 
-            _userRepository.AddUser(user);
-            return Ok();
-        }
+        //    _userRepository.AddUser(user);
+        //    return Ok();
+        //}
     }
 }

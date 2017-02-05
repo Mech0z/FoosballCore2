@@ -35,12 +35,12 @@ namespace Logic
 
             foreach (User user in _userRepository.GetUsers())
             {
-                if (user.Email != email)
+                if (user.Email.NormalizedValue.ToLower() != email.ToLower())
                 {
                     result.Add(new PartnerPercentResult
                     {
-                        Username = user.Username,
-                        Email = user.Email,
+                        Username = user.UserName,
+                        Email = user.LowerEmail,
                         UsersNormalWinrate = normalWinRate
                     });
                 }

@@ -19,63 +19,63 @@ namespace Repository
             return query.ToList();
         }
 
-        public void AddUser(User user)
-        {
-            user.Password = BCrypt.Net.BCrypt.HashPassword("default", BCrypt.Net.BCrypt.GenerateSalt());
+        //public void AddUser(User user)
+        //{
+        //    user.Password = BCrypt.Net.BCrypt.HashPassword("default", BCrypt.Net.BCrypt.GenerateSalt());
 
-            Collection.InsertOne(user);
-        }
+        //    Collection.InsertOne(user);
+        //}
 
-        public string Login(User inputUser)
-        {
-            var user = Collection.AsQueryable().Where(x => x.Email == inputUser.Email).SingleOrDefault();
+        //public string Login(User inputUser)
+        //{
+        //    var user = Collection.AsQueryable().Where(x => x.Email == inputUser.Email).SingleOrDefault();
 
-            if (user != null)
-            {
-                if (BCrypt.Net.BCrypt.Verify(inputUser.Password, user.Password))
-                {
-                    return user.Password;
-                }
-            }
+        //    if (user != null)
+        //    {
+        //        if (BCrypt.Net.BCrypt.Verify(inputUser.Password, user.Password))
+        //        {
+        //            return user.Password;
+        //        }
+        //    }
 
-            return string.Empty;
-        }
+        //    return string.Empty;
+        //}
 
-        public string ChangePassword(string email, string oldPassword, string newPassword)
-        {
-            var user = Collection.AsQueryable().Where(x => x.Email == email).SingleOrDefault();
+        //public string ChangePassword(string email, string oldPassword, string newPassword)
+        //{
+        //    var user = Collection.AsQueryable().Where(x => x.Email == email).SingleOrDefault();
 
-            if (!BCrypt.Net.BCrypt.Verify(oldPassword, user.Password))
-            {
-                return string.Empty;
-            }
+        //    if (!BCrypt.Net.BCrypt.Verify(oldPassword, user.Password))
+        //    {
+        //        return string.Empty;
+        //    }
 
-            user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword, BCrypt.Net.BCrypt.GenerateSalt());
+        //    user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword, BCrypt.Net.BCrypt.GenerateSalt());
 
-            Collection.ReplaceOne(item => item.Id == user.Id, user,
-                            new UpdateOptions { IsUpsert = true });
+        //    Collection.ReplaceOne(item => item.Id == user.Id, user,
+        //                    new UpdateOptions { IsUpsert = true });
 
-            return user.Password;
-        }
+        //    return user.Password;
+        //}
 
-        public bool Validate(User inputUser)
-        {
-            var user = Collection.AsQueryable().Where(x => x.Email == inputUser.Email).SingleOrDefault();
+        //public bool Validate(User inputUser)
+        //{
+        //    var user = Collection.AsQueryable().Where(x => x.Email == inputUser.Email).SingleOrDefault();
 
-            if (user != null)
-            {
-                if (user.Password == inputUser.Password)
-                {
-                    return true;
-                }
-            }
+        //    if (user != null)
+        //    {
+        //        if (user.Password == inputUser.Password)
+        //        {
+        //            return true;
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         public User GetUser(string email)
         {
-            return Collection.AsQueryable().Where(x => x.Email == email).SingleOrDefault();
+            return Collection.AsQueryable().Where(x => x.Email.NormalizedValue == email.ToUpper()).SingleOrDefault();
         }
     }
 }

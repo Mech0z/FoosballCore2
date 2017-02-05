@@ -9,7 +9,7 @@
     <UserSecretsId>aspnet-FoosballCore-f279f7a3-fd54-454f-bea8-1c2364ad32f7</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AspNetCore.Identity.MongoDB" Version="1.0.0-rc2-2" />
+    <PackageReference Include="AspNetCore.Identity.MongoDB" Version="1.0.0-rc3" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.0" />
