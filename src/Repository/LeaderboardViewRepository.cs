@@ -34,5 +34,11 @@ namespace Repository
             
             return query.ToList();
         }
+
+        public void Upsert(LeaderboardView view)
+        {
+            Collection.ReplaceOne(i => i.Id == view.Id, view,
+                            new UpdateOptions { IsUpsert = true });
+        }
     }
 }

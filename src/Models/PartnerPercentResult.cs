@@ -1,10 +1,7 @@
-﻿using System;
-
-namespace Models
+﻿namespace Models
 {
-    public class PartnerPercentResult : IKey
+    public class PartnerPercentResult
     {
-        public Guid Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public double? UsersNormalWinrate { get; set; }

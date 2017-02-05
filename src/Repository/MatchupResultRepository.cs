@@ -21,5 +21,11 @@ namespace Repository
 
             return query.ToList();
         }
+
+        public void Upsert(MatchupResult matchupResult)
+        {
+            Collection.ReplaceOne(i => i.Id == matchupResult.Id, matchupResult,
+                            new UpdateOptions { IsUpsert = true });
+        }
     }
 }

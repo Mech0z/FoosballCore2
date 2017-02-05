@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AspNetCore.Identity.MongoDB.Models;
 using Microsoft.Extensions.Options;
 using Models;
 using MongoDB.Driver;
@@ -8,7 +9,7 @@ namespace Repository
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(IOptions<MongoDbSettings> settings) : base(settings, "Users")
+        public UserRepository(IOptions<MongoDbSettings> settings) : base(settings, "users")
         {
         }
 
@@ -75,7 +76,20 @@ namespace Repository
 
         public User GetUser(string email)
         {
-            return Collection.AsQueryable().Where(x => x.Email.NormalizedValue == email.ToUpper()).SingleOrDefault();
+            return Collection.AsQueryable().Where(x => x.Email.Value == email).SingleOrDefault();
+        }
+
+        public void AddUser(User user)
+        {
+            string email = user.Email.Value;
+            var mongoUserEmail = new MongoUserEmail(email);
+            mongoUserEmail.SetNormalizedEmail(email.ToUpper());
+            user.SetEmail(mongoUserEmail);
+
+            user.GravatarEmail = email;
+            user.SetNormalizedUserName(email.ToUpper());
+
+            Collection.InsertOne(user);
         }
     }
 }

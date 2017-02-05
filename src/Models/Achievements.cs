@@ -2,9 +2,8 @@
 
 namespace Models
 {
-    public class Achievement : IKey
+    public class Achievement
     {
-        public Guid Id { get; set; }
         public string Headline { get; set; }
         public string UserName { get; set; }
         public string Count { get; set; }

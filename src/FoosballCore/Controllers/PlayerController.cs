@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Repository;
 
-namespace FoosballCore2.Controllers
+namespace FoosballCore.Controllers
 {
     public class PlayerController : Controller
     {
@@ -48,9 +48,16 @@ namespace FoosballCore2.Controllers
         [HttpGet]
         public ActionResult Index(string email)
         {
+            User user = _userRepository.GetUser(email);
 
+            if (user == null)
+            {
+                user = new User(email, email);
+                _userRepository.AddUser(user);
+                user = _userRepository.GetUser(email);
+            }
 
-            return View(_userRepository.GetUser(email));
+            return View(user);
         }
 
         //[HttpPost]

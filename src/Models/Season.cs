@@ -1,10 +1,11 @@
 ﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Models
 {
-    public class Season : IKey
+    public class Season
     {
-        public Guid Id { get; set; }
+        [BsonId]
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }

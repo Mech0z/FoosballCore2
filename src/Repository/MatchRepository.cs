@@ -75,5 +75,11 @@ namespace Repository
             
             return result.ToList();
         }
+
+        public void Upsert(Match match)
+        {
+            Collection.ReplaceOne(i => i.Id == match.Id, match,
+                            new UpdateOptions { IsUpsert = true });
+        }
     }
 }

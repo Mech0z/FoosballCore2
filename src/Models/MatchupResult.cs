@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Models
 {
-    public class MatchupResult : IKey
+    public class MatchupResult
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public int HashResult { get; set; }
         public List<string> UserList { get; set; }
         
