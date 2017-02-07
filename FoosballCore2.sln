@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26127.0
+VisualStudioVersion = 15.0.26127.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7C671455-1413-4F00-B5FF-C1EA7A3CD1B5}"
 EndProject
@@ -17,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "src\Repository\Repository.csproj", "{04590E63-5769-44C1-A1F6-A0FDE8EF7B76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoosballCore", "src\FoosballCore\FoosballCore.csproj", "{814CD665-B514-49BA-9745-F4E2384F19D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "src\Frontend\Frontend.csproj", "{E5296323-1A7E-4BC4-901E-27BB7F999565}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +78,18 @@ Global
 		{814CD665-B514-49BA-9745-F4E2384F19D1}.Release|x64.Build.0 = Release|x64
 		{814CD665-B514-49BA-9745-F4E2384F19D1}.Release|x86.ActiveCfg = Release|x86
 		{814CD665-B514-49BA-9745-F4E2384F19D1}.Release|x86.Build.0 = Release|x86
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Debug|x64.ActiveCfg = Debug|x64
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Debug|x64.Build.0 = Debug|x64
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Debug|x86.ActiveCfg = Debug|x86
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Debug|x86.Build.0 = Debug|x86
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Release|x64.ActiveCfg = Release|x64
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Release|x64.Build.0 = Release|x64
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Release|x86.ActiveCfg = Release|x86
+		{E5296323-1A7E-4BC4-901E-27BB7F999565}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +99,6 @@ Global
 		{4B2CE904-AF28-40A9-81EF-0118C02E2200} = {7C671455-1413-4F00-B5FF-C1EA7A3CD1B5}
 		{04590E63-5769-44C1-A1F6-A0FDE8EF7B76} = {7C671455-1413-4F00-B5FF-C1EA7A3CD1B5}
 		{814CD665-B514-49BA-9745-F4E2384F19D1} = {7C671455-1413-4F00-B5FF-C1EA7A3CD1B5}
+		{E5296323-1A7E-4BC4-901E-27BB7F999565} = {7C671455-1413-4F00-B5FF-C1EA7A3CD1B5}
 	EndGlobalSection
 EndGlobal
