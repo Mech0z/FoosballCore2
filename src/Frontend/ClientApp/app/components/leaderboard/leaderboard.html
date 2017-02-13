@@ -1,0 +1,30 @@
+<template>
+    <h1>Leaderboard</h1>
+
+    <p if.bind="!leaderboards"><em>Loading...</em></p>
+
+    <select value.bind="selectedLeaderboard">
+        <option repeat.for="leaderboard of leaderboards" model.bind="leaderboard">${leaderboard.SeasonName}</option>
+    </select>
+
+    <table if.bind="selectedLeaderboard" class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Form</th>
+                <th>Win / Games</th>
+                <th>Win %</th>
+                <th>Elo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="leaderboardLine of selectedLeaderboard.Entries">
+                <td><a route-href="route: player; params.bind: { email: leaderboardLine.UserName }">${ leaderboardLine.UserName }</a></td>
+                <td>${ leaderboardLine.Form }</td>
+                <td>${ leaderboardLine.Wins } / ${ leaderboardLine.NumberOfGames }</td>
+                <td>${ leaderboardLine.Wins / leaderboardLine.NumberOfGames * 100 }</td>
+                <td>${ leaderboardLine.EloRating }</td>
+            </tr>
+        </tbody>
+    </table>
+</template>
