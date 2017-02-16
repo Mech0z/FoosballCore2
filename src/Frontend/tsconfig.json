@@ -6,6 +6,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipDefaultLibCheck": true,
+    "watch": true,
     "lib": [ "es2017", "dom" ],
     "types": [ "node", "whatwg-fetch" ]
   },

@@ -42,4 +42,4 @@ Player = __decorate([
     __metadata("design:paramtypes", [HttpClient])
 ], Player);
 export { Player };
-//# sourceMappingURL=Player.js.map
+//# sourceMappingURL=player.js.map

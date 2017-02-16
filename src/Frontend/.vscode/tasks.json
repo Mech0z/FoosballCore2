@@ -5,6 +5,14 @@
     "args": [],
     "tasks": [
         {
+            "taskName": "tsc",
+            "command": "tsc",
+            "args": ["-w"],
+            "isShellCommand": true,
+            "isBackground": true,
+            "problemMatcher": "$msCompile"
+        },
+        {
             "taskName": "build",
             "args": [
                 "${workspaceRoot}\\Frontend.csproj"
