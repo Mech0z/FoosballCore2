@@ -4,16 +4,16 @@ import { Router } from 'aurelia-router';
 import { LeaderboardView } from '../interfaces/interfaces';
 
 @inject(HttpClient)
-export class Leaderboard {
+export class AddMatch {
     public leaderboards: LeaderboardView[];
-    public selectedLeaderboard: LeaderboardView;
 
-    constructor(http: HttpClient) {
+    constructor(http: HttpClient)
+    {
         http.fetch('http://staging-foosball9000api.sovs.net/api/leaderboard/index')
             .then(result => result.json() as Promise<LeaderboardView[]>)
             .then(data => {
-                this.leaderboards = data;
-                this.selectedLeaderboard = this.leaderboards[0];
+                this.leaderboards = data;                
             });
     }
 }
+

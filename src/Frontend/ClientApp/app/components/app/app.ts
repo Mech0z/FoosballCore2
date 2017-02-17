@@ -41,6 +41,13 @@ export class App {
             moduleId: '../player/player',
             nav: false,
             title: 'player'
+        }, {
+            route: 'addmatch',
+            name: 'addmatch',
+            settings: { icon: 'th-list' },
+            moduleId: '../addmatch/addmatch',
+            nav: true,
+            title: 'Add match'
         }]);
 
         this.router = router;
