@@ -43,6 +43,7 @@ export class Player {
 }
 
 interface Match {
+    TimeStampUtc: Date;
     Points: number;
     PlayerList: string[];
     MatchResult: MatchResult;

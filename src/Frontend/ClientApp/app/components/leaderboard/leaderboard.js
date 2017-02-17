@@ -15,7 +15,7 @@ let Leaderboard = class Leaderboard {
             .then(result => result.json())
             .then(data => {
             this.leaderboards = data;
-            this.selectedLeaderboard = this.leaderboards[1];
+            this.selectedLeaderboard = this.leaderboards[0];
         });
     }
 };

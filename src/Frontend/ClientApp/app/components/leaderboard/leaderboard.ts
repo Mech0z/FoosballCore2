@@ -12,7 +12,7 @@ export class Leaderboard {
             .then(result => result.json() as Promise<LeaderboardView[]>)
             .then(data => {
                 this.leaderboards = data;
-                this.selectedLeaderboard = this.leaderboards[1];
+                this.selectedLeaderboard = this.leaderboards[0];
             });
     }
 }

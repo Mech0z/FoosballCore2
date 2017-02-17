@@ -1,4 +1,6 @@
 <template>
+    <require from="../converters/date-format"></require>
+    <require from="../converters/number-format"></require>
     <h1>
         ${email}
     </h1>
@@ -10,12 +12,14 @@
             <tr>
                 <th>Username</th>
                 <th>Wins / Matches</th>
+                <th>Win %</th>
             </tr>
         </thead>
         <tbody>
             <tr repeat.for="partnerResult of partnerResults">
                 <td>${ partnerResult.Username }</td>
-                <td>${ partnerResult.Wins } ${partnerResult.Matches}</td>
+                <td>${ partnerResult.Wins } / ${partnerResult.Matches}</td>               
+                <td>${ (partnerResult.Wins / partnerResult.Matches * 100) | numberFormat:'0.)'}</td>
             </tr>
         </tbody>
     </table>
@@ -23,6 +27,7 @@
     <table if.bind="recentMatches || partnerResults" class="table">
         <thead>
             <tr>
+                <th>Date</th>
                 <th>Team 1</th>
                 <th>Team 2</th>
                 <th>Result</th>
@@ -31,6 +36,7 @@
         </thead>
         <tbody>
             <tr repeat.for="match of recentMatches">
+                <td>${ match.TimeStampUtc | dateFormat }
                 <td>${ match.PlayerList[0] } & ${ match.PlayerList[1] }</td>
                 <td>${ match.PlayerList[2] } & ${ match.PlayerList[3] }</td>
                 <td>${ match.MatchResult.Team1Score} - ${ match.MatchResult.Team2Score}</td>
