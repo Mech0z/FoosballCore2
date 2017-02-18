@@ -9,6 +9,9 @@ To run frontend with visual studio code on windows
   npm install typescript
   npm install --save-dev webpack
  
-#3
+#3 Restore dotnet packages
   goto frontend dir \src\Frontend
   powershell: dotnet restore
+
+#5
+  F5 in Visual studio code
