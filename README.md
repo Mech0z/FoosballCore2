@@ -7,6 +7,7 @@ To run frontend with visual studio code on windows
   
 #2 install typescript and webpack
   npm install typescript
+  npm install -g webpack
   npm install --save-dev webpack
   npm install -g yo generator-aspnetcore-spa
  
