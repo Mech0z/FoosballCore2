@@ -10,6 +10,7 @@ To run frontend with visual studio code on windows
   npm install -g webpack
   npm install --save-dev webpack
   npm install -g yo generator-aspnetcore-spa
+  npm install typings --global
  
 #3 Restore dotnet packages
   goto frontend dir \src\Frontend
