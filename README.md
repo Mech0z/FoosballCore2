@@ -5,8 +5,9 @@ To run frontend with visual studio code on windows
 #1 Install npm
   choco install npm (need admin prev)
   
-#2 install typescript
+#2 install typescript and webpack
   npm install typescript
+  npm install --save-dev webpack
  
 #3
   goto frontend dir \src\Frontend
