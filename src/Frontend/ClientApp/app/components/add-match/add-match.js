@@ -15,6 +15,7 @@ let AddMatch = class AddMatch {
             .then(result => result.json())
             .then(data => {
             this.leaderboards = data;
+            this.activeLeaderboard = this.leaderboards[0];
         });
     }
 };
@@ -23,4 +24,4 @@ AddMatch = __decorate([
     __metadata("design:paramtypes", [HttpClient])
 ], AddMatch);
 export { AddMatch };
-//# sourceMappingURL=addmatch.js.map
+//# sourceMappingURL=add-match.js.map

@@ -37,10 +37,10 @@ export class App {
                 nav: false,
                 title: 'player'
             }, {
-                route: 'addmatch',
-                name: 'addmatch',
+                route: 'add-match',
+                name: 'add-match',
                 settings: { icon: 'th-list' },
-                moduleId: '../addmatch/addmatch',
+                moduleId: '../add-match/add-match',
                 nav: true,
                 title: 'Add match'
             }]);
