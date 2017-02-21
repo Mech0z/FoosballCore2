@@ -8,6 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { HttpClient } from 'aurelia-fetch-client';
+import { json } from 'aurelia-fetch-client';
 import { inject } from 'aurelia-framework';
 let AddMatch = class AddMatch {
     constructor(http) {
@@ -55,25 +56,30 @@ let AddMatch = class AddMatch {
             return;
         }
         if (this.Match1.MatchResult.Team1Score != null) {
+            this.Match1.PlayerList = [];
             this.Match1.PlayerList.push(this.Player1.UserName);
             this.Match1.PlayerList.push(this.Player2.UserName);
             this.Match1.PlayerList.push(this.Player3.UserName);
             this.Match1.PlayerList.push(this.Player4.UserName);
         }
         if (this.Match2.MatchResult.Team1Score != null) {
+            this.Match2.PlayerList = [];
             this.Match2.PlayerList.push(this.Player1.UserName);
             this.Match2.PlayerList.push(this.Player2.UserName);
             this.Match2.PlayerList.push(this.Player3.UserName);
             this.Match2.PlayerList.push(this.Player4.UserName);
         }
-        console.log(this.Match1.MatchResult.Team1Score);
-        console.log(this.Match1.MatchResult.Team2Score);
-        console.log(this.Match2.MatchResult.Team1Score);
-        console.log(this.Match2.MatchResult.Team2Score);
+        var request = new SaveMatchesRequest();
+        //request.PlayerList = this.Match1.PlayerList;
+        this.http.fetch('http://staging-foosball9000api.sovs.net/api/match/SaveMatch', {
+            method: 'post',
+            body: json(request)
+        })
+            .then(data => {
+            console.log("success");
+        });
     }
     GetGravatar(email, size) {
-        // MD5 (Message-Digest Algorithm) by WebToolkit
-        // 
         var MD5 = function (s) { function L(k, d) { return (k << d) | (k >>> (32 - d)); } function K(G, k) { var I, d, F, H, x; F = (G & 2147483648); H = (k & 2147483648); I = (G & 1073741824); d = (k & 1073741824); x = (G & 1073741823) + (k & 1073741823); if (I & d) {
             return (x ^ 2147483648 ^ F ^ H);
         } if (I | d) {
