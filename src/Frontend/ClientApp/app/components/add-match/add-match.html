@@ -1,4 +1,57 @@
 <template>
     <h1>New matchup</h1>
-    <button repeat.for="entry of activeLeaderboard.Entries">${entry.UserName}<br>${entry.EloRating}</button></li>
+
+<div id="mydiv" if.bind="loading" align="center">
+        <img src="https://github.com/Mech0z/Foosball9000/blob/master/Frontend/app/images/ajax-loader.gif" class="ajax-loader" />
+    </div>
+
+<section if.bind="!loading">
+        <h3>SELECT THE PLAYERS</h3>
+        <ul  class="list-inline">
+            <li repeat.for="entry of activeLeaderboard.Entries">
+                <div click.delegate="addPlayer(entry)"">
+                    <div>
+                        <img src="${GetGravatar(entry.UserName, 80)}" style="width: 50px; height: 50px; float: left; margin: 0px 10px 0px 0px;" />
+                        <p style="width: 240px;">
+                            <b>${entry.UserName}</b>
+                            <p style="font-style: italic">rating: ${entry.EloRating}</p> 
+                        </p>                        
+                    </div>
+                </div>
+            </li>            
+        </ul>
+           
+    </section>
+
+<div>
+    <b>Team 1</b>
+    ${Player1.UserName}
+    &
+    ${Player2.UserName}
+</div>
+<div>
+    <b>Team 2</b>
+    ${Player3.UserName}
+    &
+    ${Player4.UserName}
+</div>
+
+<div>
+    <h2>Match 1</h2>
+    <input type="number" value.bind="Match1.MatchResult.Team1Score" />
+    -
+    <input type="number" value.bind="Match1.MatchResult.Team2Score" />
+</div>
+
+<div>
+    <h2>Match 2</h2>
+    <input type="number" value.bind="Match2.MatchResult.Team1Score" />
+    -
+    <input type="number" value.bind="Match2.MatchResult.Team2Score" />
+</div>
+
+</br>
+
+<button click.delegate="addResult()">Add results</button>
+
 </template>
