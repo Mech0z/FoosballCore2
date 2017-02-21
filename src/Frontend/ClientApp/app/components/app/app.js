@@ -9,26 +9,12 @@ export class App {
                 nav: true,
                 title: 'Home'
             }, {
-                route: 'counter',
-                name: 'counter',
-                settings: { icon: 'education' },
-                moduleId: '../counter/counter',
-                nav: true,
-                title: 'Counter'
-            }, {
                 route: 'leaderboard',
                 name: 'leaderboard',
                 settings: { icon: 'th-list' },
                 moduleId: '../leaderboard/leaderboard',
                 nav: true,
                 title: 'Leaderboard'
-            }, {
-                route: 'fetch-data',
-                name: 'fetchdata',
-                settings: { icon: 'th-list' },
-                moduleId: '../fetchdata/fetchdata',
-                nav: true,
-                title: 'Fetch data'
             }, {
                 route: 'player',
                 name: 'player',
