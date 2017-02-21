@@ -37,3 +37,8 @@ export interface PartnerResult {
 export interface Player {
     GravatarEmail: string;
 }
+
+export interface SaveMatchesRequest {
+    PlayerList: Player;
+    Matches: Match;
+}

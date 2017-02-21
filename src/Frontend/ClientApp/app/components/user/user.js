@@ -1,6 +1,3 @@
-// The following line is a workaround for aurelia-fetch-client requiring the type UrlSearchParams
-// to exist in global scope, but that type not being declared in any public @types/* package.
-/// <reference path="../../../../node_modules/aurelia-fetch-client/doc/url.d.ts" />
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12,19 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { HttpClient } from 'aurelia-fetch-client';
 import { inject } from 'aurelia-framework';
-let Fetchdata = class Fetchdata {
-    constructor(http) {
-        http.fetch('/api/SampleData/WeatherForecasts')
-            .then(result => result.json())
-            .then(data => {
-            this.forecasts = data;
-            this.forecasts2 = data;
-        });
+let User = class User {
+    constructor() {
+    }
+    Login() {
+        console.log("login");
     }
 };
-Fetchdata = __decorate([
+User = __decorate([
     inject(HttpClient),
-    __metadata("design:paramtypes", [HttpClient])
-], Fetchdata);
-export { Fetchdata };
-//# sourceMappingURL=fetchdata.js.map
+    __metadata("design:paramtypes", [])
+], User);
+export { User };
+//# sourceMappingURL=user.js.map

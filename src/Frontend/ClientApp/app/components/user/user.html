@@ -1,0 +1,14 @@
+<template>
+    <div if.bind="!loggedIn">
+        <h2>Login</h2></br>
+        Email: <input type="email" value.bind="Loginuser.Email" />
+        </br></br>
+        Password: <input type="password" value.bind="Loginuser.Password" />
+        </br></br>
+        <button click.delegate="Login()">Login</button>
+    </div>
+
+    <div if.bind="loggedIn">
+        <h2>Welcome</h2>
+    </div>
+</template>

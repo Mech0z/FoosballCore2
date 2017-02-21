@@ -14,6 +14,13 @@ export class App {
             nav: true,
             title: 'Home'
         }, {
+            route: 'user',
+            name: 'user',
+            settings: { icon: 'th-list' },
+            moduleId: '../user/user',
+            nav: true,
+            title: 'User'
+        }, {
             route: 'leaderboard',
             name: 'leaderboard',
             settings: { icon: 'th-list' },
