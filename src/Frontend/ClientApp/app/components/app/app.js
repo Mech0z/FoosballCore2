@@ -23,12 +23,12 @@ export class App {
                 nav: true,
                 title: 'Leaderboard'
             }, {
-                route: 'player',
-                name: 'player',
+                route: 'playerdetails',
+                name: 'playerdetails',
                 settings: { icon: 'th-list' },
-                moduleId: '../player/player',
+                moduleId: '../playerdetails/playerdetails',
                 nav: false,
-                title: 'player'
+                title: 'playerdetails'
             }, {
                 route: 'add-match',
                 name: 'add-match',

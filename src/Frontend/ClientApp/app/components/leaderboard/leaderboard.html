@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             <tr repeat.for="leaderboardLine of selectedLeaderboard.Entries">
-                <td><a route-href="route: player; params.bind: { email: leaderboardLine.UserName }">${ GetUser(leaderboardLine.UserName).Username }</a></td>
+                <td><a route-href="route: playerdetails; params.bind: { email: leaderboardLine.UserName }">${ GetUser(leaderboardLine.UserName).Username }</a></td>
                 <td>${ leaderboardLine.Form }</td>
                 <td>${ leaderboardLine.Wins } / ${ leaderboardLine.NumberOfGames }</td>
                 <td>${ leaderboardLine.Wins / leaderboardLine.NumberOfGames * 100 }</td>

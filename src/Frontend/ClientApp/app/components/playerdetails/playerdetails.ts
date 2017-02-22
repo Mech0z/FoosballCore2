@@ -3,16 +3,24 @@ import { inject } from 'aurelia-framework';
 import { Match } from '../interfaces/interfaces';
 import { MatchResult } from '../interfaces/interfaces';
 import { PartnerResult } from '../interfaces/interfaces';
+import { Player } from '../interfaces/interfaces';
 
 @inject(HttpClient)
-export class Player {
+export class PlayerDetails {
     public email: string;
     public recentMatches: Match[];
     public partnerResults: PartnerResult[];
     public http: HttpClient;
+    public Players: Player[];
 
     constructor(http: HttpClient) {
         this.http = http;
+
+        http.fetch('http://staging-foosball9000api.sovs.net/api/player/GetUsers')
+            .then(result => result.json() as Promise<Player[]>)
+            .then(data => {
+                this.Players = data;
+            });
     }
 
     activate(routingParam: string) {
@@ -44,5 +52,12 @@ export class Player {
         });
     }
 
-
+    GetUser(email: string)
+    {
+        for (var player of this.Players) {
+                if(player.Email == email){
+                    return player;
+                }
+        }
+    }
 }

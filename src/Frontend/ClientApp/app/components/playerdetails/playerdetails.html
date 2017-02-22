@@ -37,8 +37,8 @@
         <tbody>
             <tr repeat.for="match of recentMatches">
                 <td>${ match.TimeStampUtc | dateFormat }
-                <td>${ match.PlayerList[0] } & ${ match.PlayerList[1] }</td>
-                <td>${ match.PlayerList[2] } & ${ match.PlayerList[3] }</td>
+                <td>${ GetUser(match.PlayerList[0]).Username } & ${ GetUser(match.PlayerList[1]).Username }</td>
+                <td>${ GetUser(match.PlayerList[2]).Username } & ${ GetUser(match.PlayerList[3]).Username }</td>
                 <td>${ match.MatchResult.Team1Score} - ${ match.MatchResult.Team2Score}</td>
                 <td>${ match.Won ? "+" : "-" }${ match.Points }</td>
             </tr>

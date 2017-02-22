@@ -9,12 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { HttpClient } from 'aurelia-fetch-client';
 import { inject } from 'aurelia-framework';
-let Player = class Player {
+let PlayerDetails = class PlayerDetails {
     constructor(http) {
         this.http = http;
     }
     activate(routingParam) {
         this.email = routingParam.email;
+
+        this.http.fetch('http://staging-foosball9000api.sovs.net/api/player/GetUsers')
+            .then(result => result.json())
+            .then(data => {
+            this.Players = data;
+        });
+
         this.http.fetch('http://staging-foosball9000api.sovs.net/api/player/GetPlayerMatches?email=' + this.email)
             .then(result => result.json())
             .then(data => {
@@ -36,10 +43,17 @@ let Player = class Player {
             match.Won = (partOfTeam1 && match.MatchResult.Team1Won) || (!partOfTeam1 && !match.MatchResult.Team1Won);
         });
     }
+    GetUser(email) {
+        for (var player of this.Players) {
+            if (player.Email == email) {
+                return player;
+            }
+        }
+    }
 };
-Player = __decorate([
+PlayerDetails = __decorate([
     inject(HttpClient),
     __metadata("design:paramtypes", [HttpClient])
-], Player);
-export { Player };
-//# sourceMappingURL=player.js.map
+], PlayerDetails);
+export { PlayerDetails };
+//# sourceMappingURL=playerdetails.js.map
