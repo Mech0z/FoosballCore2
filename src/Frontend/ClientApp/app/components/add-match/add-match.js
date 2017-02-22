@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { HttpClient } from 'aurelia-fetch-client';
 import { json } from 'aurelia-fetch-client';
 import { inject } from 'aurelia-framework';
+import { SaveMatchesRequest } from '../interfaces/interfaces';
 let AddMatch = class AddMatch {
     constructor(http) {
         this.loading = true;

@@ -35,10 +35,12 @@ export interface PartnerResult {
 }
 
 export interface Player {
+    Email: string;
     GravatarEmail: string;
+    Username: string
 }
 
-export interface SaveMatchesRequest {
+export class SaveMatchesRequest {
     PlayerList: Player;
     Matches: Match;
 }
